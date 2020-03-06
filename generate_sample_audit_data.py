@@ -52,13 +52,13 @@ def find_int_gaps(int_set: list, position: int = 1) -> int:
 
 
 def generate_id_records(number_of_users: int):
-    number_list = generate_unqiue_uid_set(number_of_users)
+    #number_list = generate_unqiue_uid_set(number_of_users)
     full_list = []
     audit_record_count = 1
     username_number = 1
     username_set = set()
-    username_set = generate_preused_numbers(username_set, len(number_list * 2), 5)
-    for uid in progressbar.progressbar(number_list):
+    username_set = generate_preused_numbers(username_set, number_of_users, 5)
+    for uid in progressbar.progressbar(range(number_of_users)):
         max_date = None
         # Setup randaom data
         number_of_records = random.randint(0, 4)
