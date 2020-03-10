@@ -18,7 +18,7 @@ To replicate the spirit of work I did elsewhere, this generates a flat file that
     - Since the dictionary worked so well I figured there must be some type of object that is purpose built for this (without having to resort to dummy values)
     - Searching stackoverflow I found set(). This was a perfect example of the power of searching when you know exactly what you are looking for (rather than just copying and pasting code without understanding it)
     - I updated find_int_gaps to use a set(), tested, and found the performance to be comparable. (I had used cProfile to test differences up to this point, but didn't run it to compare here, because it was just so incredibly fast, like the dctionary)
-    - I upped the number of generated records to 1,000,000 and the script finished in 14 seconds (as opposed to 270 for 30,000 when using a list).
+    - I upped the number of generated records to 1,000,000 and the script finished in 14 seconds (as opposed to 270 seconds for 30,000 when using a list).
 
 ## Generator performance
 
