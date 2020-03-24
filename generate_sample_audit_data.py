@@ -54,6 +54,8 @@ def find_int_gaps(int_set: list, position: int = 1) -> int:
 def generate_id_records(number_of_users: int):
     #number_list = generate_unqiue_uid_set(number_of_users)
     full_list = []
+    headers = ['pk', 'uuid', 'old_value', 'old_date', 'new_value', 'new_date']
+    full_list.append(headers)
     audit_record_count = 1
     username_number = 1
     username_set = set()
@@ -83,6 +85,7 @@ def generate_id_records(number_of_users: int):
             max_day = random.randint(min_date.day + 1, int(min_date.day) + 4)
             max_date = date(2019, 3, max_day)
             username_number = find_int_gaps(username_set, username_number)
+            #print(username_number)
             if i == number_of_records[-1]:
                 if final_record_state == 'different':
                     username_set.add(username_number)
@@ -94,11 +97,14 @@ def generate_id_records(number_of_users: int):
             if i == number_of_records[-1]:
                 if final_record_state == 'original':
                     username = username_original
+                    #print(username)
                     record_list.append(username)                   
                 elif final_record_state == 'missing':
-                    username = None
+                    username = ''
                     record_list.append(username)
                 elif final_record_state == 'thief':
+                    record_list.append(username)
+                elif final_record_state == 'different':
                     record_list.append(username)
             else:
                 record_list.append(username)
@@ -110,5 +116,5 @@ def generate_id_records(number_of_users: int):
         writer = csv.writer(f)
         writer.writerows(full_list)
 
-generate_id_records(1000000)
+generate_id_records(5000)
 
