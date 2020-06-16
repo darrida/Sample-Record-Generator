@@ -8,8 +8,7 @@ import progressbar
 
 
 def generate_unqiue_uid_set(number: int) -> list:
-    uid_l = list(range(0, number))
-    return uid_l
+    return list(range(number))
 
 
 def final_record_options(selection: int) -> str:
@@ -42,12 +41,11 @@ def generate_preused_numbers(int_set: set, total: int, interval_limit: int, min_
 
 def find_int_gaps(int_set: list, position: int = 1) -> int:
     gap = False
-    while gap == False:
+    while not gap:
         if position in int_set:
             position += 1
         else:
             return position
-            gap == True
     return position + 1
 
 
@@ -64,7 +62,7 @@ def generate_id_records(number_of_users: int):
         max_date = None
         # Setup randaom data
         number_of_records = random.randint(0, 4)
-        number_of_records = list(range(0, number_of_records))
+        number_of_records = list(range(number_of_records))
         final_record_determination = random.randint(0, 10)
         final_record_state = final_record_options(final_record_determination)
         for i in number_of_records:
@@ -77,10 +75,7 @@ def generate_id_records(number_of_users: int):
             record_list.append(audit_record_count)
             record_list.append(uid)
             record_list.append(username)
-            if max_date:
-                min_date = max_date
-            else:
-                min_date = date(2019, 3, 15)
+            min_date = max_date if max_date else date(2019, 3, 15)
             record_list.append(min_date)
             max_day = random.randint(min_date.day + 1, int(min_date.day) + 4)
             max_date = date(2019, 3, max_day)
@@ -94,24 +89,23 @@ def generate_id_records(number_of_users: int):
             else:
                 username_set.add(username_number)
             username = 'username' + str(username_number)
-            if i == number_of_records[-1]:
-                if final_record_state == 'original':
-                    username = username_original
-                    #print(username)
-                    record_list.append(username)                   
-                elif final_record_state == 'missing':
-                    username = ''
-                    record_list.append(username)
-                elif final_record_state == 'thief':
-                    record_list.append(username)
-                elif final_record_state == 'different':
-                    record_list.append(username)
-            else:
+            if i == number_of_records[-1] and final_record_state == 'original':
+                username = username_original
+                #print(username)
+                record_list.append(username)
+            elif i == number_of_records[-1] and final_record_state == 'missing':
+                username = ''
+                record_list.append(username)
+            elif (
+                i == number_of_records[-1]
+                and final_record_state in ['thief', 'different']
+                or i != number_of_records[-1]
+            ):
                 record_list.append(username)
             record_list.append(max_date)
             full_list.append(record_list)
             audit_record_count += 1
-    
+
     with open("generated_audit_data.csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(full_list)
